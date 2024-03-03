@@ -16,17 +16,8 @@ class _OrdersState extends State<Orders> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-          Card(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Online/Offline'),
-                SwitchExample(),
-              ],
-            ),
-          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+            padding: const EdgeInsets.only(top: 28.0, bottom: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
