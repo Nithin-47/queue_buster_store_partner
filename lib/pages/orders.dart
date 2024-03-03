@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:queue_buster_store_partner/widgets/switch.dart';
 
@@ -14,10 +12,10 @@ class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
           Card(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -27,7 +25,6 @@ class _OrdersState extends State<Orders> {
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
             child: Row(
@@ -64,15 +61,63 @@ class _OrdersState extends State<Orders> {
               ],
             ),
           ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(18),
+              itemCount: 5,
+              itemBuilder: (BuildContext context, int i) {
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Ovhay',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight: 1000,
+                          ),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                              physics: RangeMaintainingScrollPhysics(),
+                              itemCount: 10,
+                              itemBuilder: (context, i) => const Text("lol")
+                          )
+                        ),
 
-
-        ],
-      )
-
-
-
-
-
-    );
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            TextButton(
+                                onPressed: () {}, child: const Text("Approve")),
+                            TextButton(
+                                onPressed: () {}, child: const Text("Reject"))
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          )
+        ]));
   }
 }
+
+// ListView.builder(
+// padding: const EdgeInsets.all(8),
+// itemCount: 2,
+// itemBuilder: (BuildContext context, int i) {
+// return const ListTile(
+//
+// leading: Text('Put the ordered Item here'),
+// );
+//
+// }),

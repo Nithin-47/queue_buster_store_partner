@@ -4,6 +4,7 @@ import 'package:queue_buster_store_partner/constants/route_names.dart';
 
 import 'package:queue_buster_store_partner/pages/menu.dart';
 import 'package:queue_buster_store_partner/pages/Settings.dart';
+import 'package:queue_buster_store_partner/pages/menuAdd.dart';
 
 import 'package:queue_buster_store_partner/pages/orders.dart';
 import 'package:queue_buster_store_partner/widgets/consumer_layout.dart';
@@ -48,11 +49,10 @@ final GoRouter goRouter =
             GoRoute(
                 path: RouteNames.orders.path,
                 builder: (context, state) => const Menu()),
-            // GoRoute(
-            //     path: "${RouteNames.menu.path}/:id",
-            //     builder: (context, state) => MenuPage(
-            //       storeId:int.parse(state.pathParameters["id"]!)
-            //     )),
+            GoRoute(
+                path: RouteNames.menuAdd.path,
+                builder: (context, state) => const menuAdd()
+            ),
           ],
         ),
         StatefulShellBranch(
