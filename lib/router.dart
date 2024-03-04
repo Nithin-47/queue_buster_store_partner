@@ -1,10 +1,3 @@
-import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
-import 'package:queue_buster_store_partner/constants/route_names.dart';
-import 'package:queue_buster_store_partner/pages/login.dart';
-import 'package:queue_buster_store_partner/pages/signup.dart';
-import 'package:queue_buster_store_partner/service/auth_service.dart';
-
 final GoRouter goRouter = GoRouter(
   redirect: (context, _) {
     final authService = GetIt.I<AuthService>();
@@ -23,6 +16,36 @@ final GoRouter goRouter = GoRouter(
     GoRoute(
       path: RouteNames.authLogin.path,
       builder: (context, state) => const LoginPage(),
-    )
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) =>
+          ScaffoldWithNavBar(navigationShell: navigationShell),
+      branches: [
+        StatefulShellBranch(
+          routes: <RouteBase>[
+            GoRoute(
+                path: RouteNames.home.path,
+                builder: (context, state) => const Orders()),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: <RouteBase>[
+            GoRoute(
+                path: RouteNames.orders.path,
+                builder: (context, state) => const Menu()),
+            GoRoute(
+                path: RouteNames.menuAdd.path,
+                builder: (context, state) => const menuAdd()
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: <RouteBase>[
+            GoRoute(
+                path: RouteNames.menu.path,
+                builder: (context, state) => const More()),
+          ],
+        )
+      ]),
   ],
 );
