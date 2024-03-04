@@ -1,8 +1,7 @@
 enum RouteNames {
   authLogin,
   authSignup,
-  emailVerification,
-  storeHome,
+  home,
   menu,
   orders,
   menuAdd
@@ -15,9 +14,7 @@ extension RouteNamesHelper on RouteNames {
         return "/auth/login";
       case RouteNames.authSignup:
         return "/auth/signup";
-      case RouteNames.emailVerification:
-        return "/auth/email-verification";
-      case RouteNames.storeHome:
+      case RouteNames.home:
         return "/";
       case RouteNames.menu:
         return "/menu";

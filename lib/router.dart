@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:queue_buster_store_partner/constants/route_names.dart';
 
 import 'package:queue_buster_store_partner/pages/menu.dart';
-import 'package:queue_buster_store_partner/pages/Settings.dart';
+import 'package:queue_buster_store_partner/pages/more.dart';
 import 'package:queue_buster_store_partner/pages/menuAdd.dart';
 
 import 'package:queue_buster_store_partner/pages/orders.dart';
@@ -11,7 +11,7 @@ import 'package:queue_buster_store_partner/widgets/consumer_layout.dart';
 
 
 final GoRouter goRouter =
-    GoRouter(initialLocation: RouteNames.storeHome.path, routes: [
+    GoRouter(initialLocation: RouteNames.home.path, routes: [
   // GoRoute(
   //     path: RouteNames.authSignup.path,
   //     builder: (context, state) => const SignupPage()),
@@ -36,7 +36,7 @@ final GoRouter goRouter =
         StatefulShellBranch(
           routes: <RouteBase>[
             GoRoute(
-                path: RouteNames.storeHome.path,
+                path: RouteNames.home.path,
                 builder: (context, state) => const Orders()),
             // GoRoute(
             //     path: RouteNames.selectLocation.path,
@@ -59,7 +59,7 @@ final GoRouter goRouter =
           routes: <RouteBase>[
             GoRoute(
                 path: RouteNames.menu.path,
-                builder: (context, state) => const Settings()),
+                builder: (context, state) => const More()),
           ],
         ),
         // StatefulShellBranch(

@@ -5,14 +5,14 @@ import 'package:queue_buster_store_partner/pages/orders.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:queue_buster_store_partner/widgets/switch.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({super.key});
+class More extends StatefulWidget {
+  const More({super.key});
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<More> createState() => _MoreState();
 }
 
-class _SettingsState extends State<Settings> {
+class _MoreState extends State<More> {
   File? selectedImage;
   bool light = true;
   final storeNameController = TextEditingController();
