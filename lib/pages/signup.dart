@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import "package:get_it/get_it.dart";
+import 'package:go_router/go_router.dart';
 import 'package:queue_buster_store_partner/service/auth_service.dart';
+
+import '../constants/route_names.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -14,20 +17,25 @@ class _SignupPageState extends State<SignupPage> {
 
   void handleSignup() {
     authService.signup(
-      name: _nameController.text,
+        firstName: _firstNameController.text,
+      lastName: _lastNameController.text,
       email: _emailController.text,
       password: _passwordController.text,
+      storeName: _storeNameController.text,
       context: context
     );
   }
 
-  final _nameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _storeNameController = TextEditingController();
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
 
@@ -45,10 +53,20 @@ class _SignupPageState extends State<SignupPage> {
         child: Column(
           children: [
             TextField(
-                controller: _nameController,
+              controller: _firstNameController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'First Name',
+              ),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            TextField(
+                controller: _lastNameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Name',
+                  labelText: 'Last Name',
                 )),
             const SizedBox(
               height: 12,
@@ -73,7 +91,20 @@ class _SignupPageState extends State<SignupPage> {
             const SizedBox(
               height: 12,
             ),
-            ElevatedButton(onPressed: handleSignup, child: const Text('Signup'))
+            TextField(
+              controller: _storeNameController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Store Name'
+              ),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            ElevatedButton(onPressed: handleSignup, child: const Text('Signup')),
+            TextButton(onPressed: () {
+              context.go(RouteNames.authLogin.path);
+            }, child: const Text("Already a member? Login"))
           ],
         ),
       ),

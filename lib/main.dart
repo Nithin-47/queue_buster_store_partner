@@ -14,7 +14,7 @@ Future<void> main() async {
   );
 
   GetIt.I.registerSingleton<SupabaseClient>(Supabase.instance.client);
-  GetIt.I.registerSingleton(AuthService());
+  GetIt.I.registerSingleton<AuthService>(AuthService());
 
   runApp(
     MaterialApp.router(

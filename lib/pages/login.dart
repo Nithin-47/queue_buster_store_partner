@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
+import 'package:queue_buster_store_partner/constants/route_names.dart';
 import 'package:queue_buster_store_partner/service/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -62,7 +64,10 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 12,
             ),
-            ElevatedButton(onPressed: handleLogin, child: const Text('Login'))
+            ElevatedButton(onPressed: handleLogin, child: const Text('Login')),
+            TextButton(onPressed: () {
+              context.go(RouteNames.authSignup.path);
+            }, child: const Text("Not a member? Signup")),
           ],
         ),
       ),

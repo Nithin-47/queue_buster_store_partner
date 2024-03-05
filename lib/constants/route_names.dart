@@ -4,7 +4,8 @@ enum RouteNames {
   home,
   menu,
   orders,
-  menuAdd
+  menuAdd,
+  more
 }
 
 extension RouteNamesHelper on RouteNames {
@@ -22,6 +23,8 @@ extension RouteNamesHelper on RouteNames {
         return "/orders";
       case RouteNames.menuAdd:
         return "/menuAdd";
+      case RouteNames.more:
+        return "/more";
     }
   }
 }

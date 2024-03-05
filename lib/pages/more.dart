@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:queue_buster_store_partner/pages/orders.dart';
+import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:queue_buster_store_partner/widgets/switch.dart';
+import 'package:queue_buster_store_partner/service/auth_service.dart';
 
 class More extends StatefulWidget {
   const More({super.key});
@@ -13,6 +12,8 @@ class More extends StatefulWidget {
 }
 
 class _MoreState extends State<More> {
+  final authService = GetIt.I<AuthService>();
+
   File? selectedImage;
   bool light = true;
   final storeNameController = TextEditingController();
@@ -123,7 +124,9 @@ class _MoreState extends State<More> {
           height: 20,
         ),
 
-        ElevatedButton(onPressed: () {}, child: Text("SignOut",
+        ElevatedButton(onPressed: () {
+          authService.logout();
+        }, child: Text("SignOut",
         style: TextStyle(
           fontSize: 16
         ),))

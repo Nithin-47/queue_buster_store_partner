@@ -1,47 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:queue_buster_store_partner/widgets/switch.dart';
+import 'package:get_it/get_it.dart';
+import 'package:queue_buster_store_partner/models/menu.dart';
+import 'package:queue_buster_store_partner/widgets/menu_card.dart';
 import "package:go_router/go_router.dart";
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../constants/route_names.dart';
+import 'package:queue_buster_store_partner/constants/route_names.dart';
+import 'package:queue_buster_store_partner/service/auth_service.dart';
 
-class Menu extends StatefulWidget {
-  const Menu({super.key});
+class MenuPage extends StatefulWidget {
+  const MenuPage({super.key});
 
   @override
-  State<Menu> createState() => _MenuState();
+  State<MenuPage> createState() => _MenuPageState();
 }
 
-class _MenuState extends State<Menu> {
+class _MenuPageState extends State<MenuPage> {
+  final supabase = GetIt.I<SupabaseClient>();
+
+  List<Menu> availableMenu = [];
+  List<Menu> unavailableMenu = [];
+
+  void fetchMenu() async {
+    final int storeId = GetIt.I<AuthService>().currentUser!.userMetadata?["store_id"];
+    final items = await supabase.from("items").select().eq("store_id", storeId);
+
+    for(var item in items) {
+      final menu = Menu(
+        id: item["id"],
+        name: item["name"],
+        price: double.parse(item["price"].toString()),
+        storeId: item["store_id"],
+        imageUrl: item["image_url"],
+        available: item["available"],
+      );
+
+      if(item["available"]) {
+        availableMenu.add(menu);
+      } else {
+        unavailableMenu.add(menu);
+      }
+    }
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMenu();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // return SafeArea(
-    //   child: Column(
-    //     children: [
-    //       const Center(
-    //         child: Text(
-    //           "MENU",
-    //           style: TextStyle(
-    //             fontSize: 20,
-    //             fontWeight: FontWeight.w300,
-    //           ),
-    //         ),
-    //       ),
-    //       Padding(
-    //           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-    //           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-    //             Expanded(
-    //               flex: 1,
-    //               child: Container(
-    //                 color: Colors.black,
-    //                 height: 1.5,
-    //                 width: 1.5,
-    //               ),
-    //             ),
-    //           ]))
-    //     ],
-    //   ),
-    //
-    // );
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -53,7 +64,7 @@ class _MenuState extends State<Menu> {
             ],
           ),
           title: const Center(
-            child: Text('MENU',style: TextStyle(
+            child: Text('Menu',style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 20,
             ),),
@@ -62,104 +73,24 @@ class _MenuState extends State<Menu> {
         body: TabBarView(
           children: [
             ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: 5,
+              padding: const EdgeInsets.all(16),
+              itemCount: availableMenu.length,
               itemBuilder: (BuildContext context, int index) {
-                bool light = true;
-
-                return SizedBox(
-                  height: 150,
-                  child: Card(
-                      elevation: 2,
-
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const CircleAvatar(
-                            backgroundImage: AssetImage("assets/login.svg"),
-                            radius: 40,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "HEllo",
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'price',
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              )
-                            ],
-                          ),
-                          // const SizedBox(
-                          //   width: 80,
-                          // ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text("Available"),
-                              TextButton(onPressed: () {}, child: Icon(Icons.close)),
-                            ],
-                          )
-                        ],
-                      )),
+                return MenuCard(
+                  name: availableMenu[index].name,
+                  price: availableMenu[index].price,
+                  imageUrl: availableMenu[index].imageUrl,
                 );
               },
             ),
             ListView.builder(
               padding: const EdgeInsets.all(8),
-              itemCount: 5,
+              itemCount: unavailableMenu.length,
               itemBuilder: (BuildContext context, int index) {
-                bool light = true;
-
-                return SizedBox(
-                  height: 150,
-                  child: Card(
-                      elevation: 2,
-
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const CircleAvatar(
-                            backgroundImage: AssetImage("assets/login.svg"),
-                            radius: 40,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "HEllo",
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'price',
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              )
-                            ],
-                          ),
-                          // const SizedBox(
-                          //   width: 80,
-                          // ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text("Available"),
-                              TextButton(onPressed: () {}, child: Icon(Icons.done)),
-                            ],
-                          )
-                        ],
-                      )),
+                return MenuCard(
+                  name: unavailableMenu[index].name,
+                  price: unavailableMenu[index].price,
+                  imageUrl: unavailableMenu[index].imageUrl,
                 );
               },
             ),
@@ -167,9 +98,9 @@ class _MenuState extends State<Menu> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            context.push(RouteNames.menuAdd.path);
+            context.go(RouteNames.menuAdd.path);
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
       ),
     );

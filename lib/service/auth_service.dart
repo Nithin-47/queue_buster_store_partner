@@ -10,12 +10,18 @@ class AuthService {
 
   User? get currentUser => supabase.auth.currentUser;
 
+  void logout() {
+    supabase.auth.signOut();
+  }
+
   Future<void> signup({
-    required String name,
+    required String firstName,
+    required String lastName,
     required String email,
     required String password,
+    required String storeName,
+    File? storeImage,
     required BuildContext context,
-    File? profileImage,
   }) async {
     try {
       showDialog(
@@ -37,12 +43,17 @@ class AuthService {
             ),
           ));
 
+    final Map<String, dynamic> storeData = await supabase.from("stores").insert({
+        "name": storeName,
+      }).select().single();
+
       final authRes = await supabase.auth.signUp(
         email: email,
         password: password,
         data: {
-          "first_name": name,
-          "role": "store"
+          "first_name": firstName,
+          "last_name": lastName,
+          "store_id": storeData["id"],
         }
       );
 

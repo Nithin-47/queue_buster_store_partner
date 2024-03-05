@@ -3,12 +3,9 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-<<<<<<< 1-auth-service
   app_links
-  url_launcher_windows
-=======
   file_selector_windows
->>>>>>> main
+  url_launcher_windows
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
